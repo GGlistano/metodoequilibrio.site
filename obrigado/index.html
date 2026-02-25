@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Gracias por tu compra!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            max-width: 450px;
+            text-align: center;
+        }
+        .icon {
+            font-size: 50px;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        /* Botón Verde Claro con Pulsación */
+        .btn-access {
+            display: inline-block;
+            background-color: #2ecc71; /* Verde claro */
+            color: #ffffff;
+            padding: 18px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            animation: pulse-green 2s infinite; /* Animación de pulsación */
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-access:hover {
+            background-color: #27ae60;
+        }
+
+        /* Definición de la animación de pulsación */
+        @keyframes pulse-green {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 15px rgba(46, 204, 113, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        p {
+            line-height: 1.6;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .highlight {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .footer-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #888;
+        }
+        .email-link {
+            color: #2ecc71;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="icon">✓</div>
+    <h1>¡Tu compra ha sido aprobada!</h1>
+    
+    <a href="https://cliente.metodoequilibrio.site/app" class="btn-access">
+        ACCEDER AL CONTENIDO AHORA
+    </a>
+
+    <p>Para ver tu contenido, <strong>revisa tu correo electrónico</strong>.</p>
+    
+    <p>Te hemos enviado un mensaje con un enlace. Haz clic ahí e inicia sesión con el <span class="highlight">e-mail que usaste en la compra</span>.</p>
+
+    <div class="footer-info">
+        ¿Alguna duda o problema? <br>
+        Soporte: <a href="mailto:gelatinasuporte@gmail.com" class="email-link">gelatinasuporte@gmail.com</a>
+    </div>
+</div>
+
+</body>
+</html>
