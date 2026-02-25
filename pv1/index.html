@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - E-book</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .timer-icon {
+            font-size: 24px;
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #856404;
+        }
+
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #856404;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .section-number {
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .payment-option {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .payment-option.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .payment-header input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .payment-header img {
+            height: 30px;
+        }
+
+        .payment-details {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .payment-details.show {
+            display: block;
+        }
+
+        .account-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .account-number {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .account-number input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .copy-btn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .account-name {
+            text-align: center;
+            color: #666;
+        }
+
+        .upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .upload-area input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .file-preview {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .file-preview.show {
+            display: block;
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ccc;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: not-allowed;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .submit-btn.ready {
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .submit-btn.ready:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn.processing {
+            background: #ffc107;
+        }
+
+        .submit-btn.success {
+            background: #28a745;
+        }
+
+        .testimonials {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .testimonials h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .testimonial-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Finalize seu Pedido</h1>
+            <div class="timer-container">
+                <span class="timer-icon">⏰</span>
+                <div>
+                    <div class="timer-text">Sua reserva expira em:</div>
+                    <div id="timer">15:00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">1</span>
+                Identifique-se
+            </div>
+            <div class="form-group">
+                <label for="fullname">Nome Completo *</label>
+                <input type="text" id="fullname" placeholder="Digite seu nome completo" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Número de Telefone *</label>
+                <input type="tel" id="phone" placeholder="Digite seu número de telefone" required>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span class="section-number">2</span>
+                Pagamento
+            </div>
+
+            <div class="payment-option" id="emola-option">
+                <div class="payment-header">
+                    <input type="radio" name="payment" id="emola-radio" value="emola" checked>
+                    <img src="https://firebasestorage.googleapis.com/v0/b/meu-sistema-cbae7.firebasestorage.app/o/emola.png?alt=media&token=dbc7163e-9940-4ffe-9817-df34f2b22b9a" alt="E-Mola">
+                    <label for="emola-radio" style="cursor: pointer; flex: 1;">E-Mola</label>
+                </div>
+
+                <div class="payment-details" id="emola-details">
+                    <div class="account-info">
+                        <div class="account-number">
+                            <input type="text" id="account-number" value="868178812" readonly>
+                            <button class="copy-btn" id="copy-btn">Copiar</button>
+                        </div>
+                        <div class="account-name">
+                            Nome do Titular: <strong>Conceição Carlos Almanaque</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Comprovativo de Pagamento *</label>
+                        <div class="upload-area" id="upload-area">
+                            <div class="upload-icon">📤</div>
+                            <p>Clique para fazer upload do comprovativo</p>
+                            <small style="color: #999;">PNG, JPG ou PDF (Máx. 5MB)</small>
+                            <input type="file" id="file-input" accept="image/*,.pdf">
+                        </div>
+                        <div class="file-preview" id="file-preview">
+                            <p id="file-name"></p>
+                            <img id="preview-image" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submit-btn" disabled>submeter comprovativo</button>
+
+            <div class="testimonials">
+                <h3>Veja os depoimentos</h3>
+                <div class="testimonials-grid">
+                    <div class="testimonial-item">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/meu-sistema-cbae7.firebasestorage.app/o/WhatsApp%20Image%202026-02-20%20at%202.34.38%20PM%20(2).jpeg?alt=media&token=a0445670-7c68-4718-86b2-014ae688e358" alt="Depoimento 1">
+                    </div>
+                    <div class="testimonial-item">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/meu-sistema-cbae7.firebasestorage.app/o/Untitled%20design.jpg?alt=media&token=4b623db7-6797-45fa-9fd8-f4fdcb7a7b98" alt="Depoimento 2">
+                    </div>
+                    <div class="testimonial-item">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/meu-sistema-cbae7.firebasestorage.app/o/Untitled%20design%20(1).jpg?alt=media&token=24272115-ea6f-450f-9406-7f3f0d5122af" alt="Depoimento 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 15 * 60;
+        const timerDisplay = document.getElementById('timer');
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            if (timeLeft > 0) {
+                timeLeft--;
+            } else {
+                timerDisplay.textContent = '00:00';
+            }
+        }
+
+        setInterval(updateTimer, 1000);
+
+        const emolaOption = document.getElementById('emola-option');
+        const emolaRadio = document.getElementById('emola-radio');
+        const emolaDetails = document.getElementById('emola-details');
+
+        if (emolaRadio.checked) {
+            emolaOption.classList.add('selected');
+            emolaDetails.classList.add('show');
+        }
+
+        emolaOption.addEventListener('click', function(e) {
+            if (e.target !== emolaRadio) {
+                emolaRadio.checked = true;
+            }
+            emolaOption.classList.add('selected');
+            emolaDetails.classList.add('show');
+            checkFormValidity();
+        });
+
+        const copyBtn = document.getElementById('copy-btn');
+        const accountNumber = document.getElementById('account-number');
+
+        copyBtn.addEventListener('click', function() {
+            accountNumber.select();
+            accountNumber.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(accountNumber.value);
+
+            copyBtn.textContent = '✓ Copiado!';
+            copyBtn.classList.add('copied');
+
+            setTimeout(() => {
+                copyBtn.textContent = 'Copiar';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        });
+
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const filePreview = document.getElementById('file-preview');
+        const fileName = document.getElementById('file-name');
+        const previewImage = document.getElementById('preview-image');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileName.textContent = `Arquivo: ${file.name}`;
+                filePreview.classList.add('show');
+
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+
+                        localStorage.setItem('payment-proof', e.target.result);
+                        localStorage.setItem('payment-proof-name', file.name);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.style.display = 'none';
+                    localStorage.setItem('payment-proof-name', file.name);
+                }
+
+                checkFormValidity();
+            }
+        });
+
+        const fullnameInput = document.getElementById('fullname');
+        const phoneInput = document.getElementById('phone');
+        const submitBtn = document.getElementById('submit-btn');
+
+        function checkFormValidity() {
+            const isValid = fullnameInput.value.trim() !== '' &&
+                          phoneInput.value.trim() !== '' &&
+                          emolaRadio.checked &&
+                          fileInput.files.length > 0;
+
+            submitBtn.disabled = !isValid;
+
+            if (isValid) {
+                submitBtn.classList.add('ready');
+            } else {
+                submitBtn.classList.remove('ready');
+            }
+        }
+
+        fullnameInput.addEventListener('input', checkFormValidity);
+        phoneInput.addEventListener('input', checkFormValidity);
+        emolaRadio.addEventListener('change', checkFormValidity);
+
+        submitBtn.addEventListener('click', function() {
+            submitBtn.disabled = true;
+            submitBtn.classList.remove('ready');
+            submitBtn.classList.add('processing');
+            submitBtn.textContent = 'Processando...';
+
+            const orderData = {
+                fullname: fullnameInput.value,
+                phone: phoneInput.value,
+                paymentMethod: 'E-Mola',
+                accountNumber: accountNumber.value,
+                proofFileName: fileInput.files[0]?.name,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem('order-data', JSON.stringify(orderData));
+
+            setTimeout(() => {
+                submitBtn.classList.remove('processing');
+                submitBtn.classList.add('success');
+                submitBtn.textContent = '✓ Comprovativo Submetido com Sucesso!';
+                submitBtn.style.cursor = 'not-allowed';
+
+                uploadArea.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 18px; color: #28a745;"><span style="font-size: 36px;">✓</span><span>Comprovativo Enviado</span></div>';
+                uploadArea.style.borderColor = '#28a745';
+                uploadArea.style.backgroundColor = '#d4edda';
+                uploadArea.style.cursor = 'not-allowed';
+            }, 2000);
+
+            console.log('Dados do pedido:', orderData);
+        });
+
+        const savedProof = localStorage.getItem('payment-proof');
+        const savedProofName = localStorage.getItem('payment-proof-name');
+        if (savedProof && savedProofName) {
+            fileName.textContent = `Arquivo: ${savedProofName}`;
+            filePreview.classList.add('show');
+            previewImage.src = savedProof;
+            previewImage.style.display = 'block';
+        }
+    </script>
+
+    <!-- Script de Tracking - Checkout -->
+    <script>
+    (function(){
+      const productId = 'aae04c4c-3a9c-426c-b71a-2787a0983054';
+      const apiUrl = 'https://zozebcdloizteyoribpv.supabase.co/functions/v1/track-checkout';
+
+      const urlParams = new URLSearchParams(window.location.search);
+      let attrId = urlParams.get('attr_id') || localStorage.getItem('attr_id');
+
+      if (!attrId) {
+        attrId = crypto.randomUUID();
+        localStorage.setItem('attr_id', attrId);
+      }
+
+      let dataSent = false;
+
+      function checkAndSendData() {
+        if (dataSent) return;
+
+        const fullnameInput = document.querySelector('#fullname');
+        const phoneInput = document.querySelector('#phone');
+
+        const nome = fullnameInput?.value.trim();
+        const telefone = phoneInput?.value.trim();
+
+        if (nome && telefone) {
+          dataSent = true;
+
+          const data = {
+            product_id: productId,
+            attribution_id: attrId,
+            nome_completo: nome,
+            telefone: telefone,
+            email: ''
+          };
+
+          fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          }).catch(console.error);
+        }
+      }
+
+      setTimeout(() => {
+        const fullnameInput = document.querySelector('#fullname');
+        const phoneInput = document.querySelector('#phone');
+
+        fullnameInput?.addEventListener('input', checkAndSendData);
+        phoneInput?.addEventListener('input', checkAndSendData);
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
